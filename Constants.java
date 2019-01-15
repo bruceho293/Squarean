@@ -12,6 +12,9 @@ public class Constants {
     public static int PLAYER_SPEED;
     public static int GROUND_HEIGHT;
 
+    //For game stages
+    public static int SCORE_STAGE_0, SCORE_STAGE_1, SCORE_STAGE_2, SCORE_STAGE_3;
+    public static int WIDTH_RECT_MODE_2;
 
     public static Context CURRENT_CONTEXT;
 }

@@ -9,7 +9,6 @@ public class Player implements GameObject {
     public Rect squarePlayer;
     private boolean jumping;
     private boolean falling;
-//    private SharedPreferences sp;
 
     public int touchGround;
 
@@ -17,10 +16,10 @@ public class Player implements GameObject {
 
     private SoundEffects sound;
     private Bitmap playerImage;
-
     private Ground ground;
+    private MinusCoin minusCoin;
 
-    private int width, height, color;
+    private int width, height;
 
     private float positionX, positionY, vX, vY;
     private final float speed2 = Constants.PLAYER_SPEED, speed1 = speed2 - 5;
@@ -34,15 +33,13 @@ public class Player implements GameObject {
     private boolean isCollideWall_top, isCollideWall_bottom, isOnWall, isCollideWall_side;
 
     private long startTime;
-//    public int HighScore;
 
 
-    public Player(int x, int y, int width, int height, int color){
+    public Player(int x, int y, int width, int height){
         this.width = width;
         this.sound = new SoundEffects(Constants.CURRENT_CONTEXT);
         this.height = height;
         this.squarePlayer = new Rect(x, y, x + width, y + height);
-        this.color = color;
         this.score = 0;
         this.vX = -speed2;
         this.vY = 0;
@@ -50,8 +47,8 @@ public class Player implements GameObject {
         this.positionX = (squarePlayer.left + squarePlayer.right)/2;
         this.positionY = (squarePlayer.top + squarePlayer.bottom)/2;
         BitmapFactory bf = new BitmapFactory();
+        this.minusCoin = new MinusCoin();
         playerImage = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.stand);
-//        sp = Constants.CURRENT_CONTEXT.getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
 
         touchGround = 0;
         jumping = false;
@@ -177,9 +174,19 @@ public class Player implements GameObject {
             setVY(1);
             setJumping(false);
             setOnWall(true);
+            if(Wall.mode == 1){
+                wall.setMovingHMode1(false);
+                if(squarePlayer.left <= wall.getRectangle().left || squarePlayer.right >= wall.getRectangle().right)
+                    reverseVX();
+            }
+            if(Wall.mode == 2 && wall.getBorder_Left() != null && wall.getBorder_Right() != null){
+                if(Rect.intersects(squarePlayer, wall.getBorder_Left()) || Rect.intersects(squarePlayer, wall.getBorder_Right()))
+                    reverseVX();
+            }
         }
         else{
             setOnWall(false);
+            wall.setMovingHMode1(true);
         }
 
         if (isCollideWall_side){
@@ -193,11 +200,12 @@ public class Player implements GameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(playerImage, null, squarePlayer, null);
-
+        minusCoin.draw(canvas);
     }
 
     @Override
     public void update() {
+
 
         dt = System.currentTimeMillis() - startTime;
         startTime = System.currentTimeMillis();
@@ -205,7 +213,14 @@ public class Player implements GameObject {
             dt = 0.5f;
         }
 
-
+        minusCoin.update();
+        minusCoin.setGetHit(squarePlayer);
+        if(minusCoin.getHit()) {
+            if(score >= 2)
+                score -= 2;
+            else if(score >= 1)
+                score -= 1;
+        }
 
         if (squarePlayer.bottom > ground.getGround().top - 50){
             setVY(30);
@@ -217,15 +232,13 @@ public class Player implements GameObject {
             setFalling(false);
         }
 
-        if (getBoundLeft().left < 0) {
+        if (getBoundLeft().left <= 0) {
 //            setVX(speed2);
-            squarePlayer.left = 0;
             reverseVX();
             vY += 0.05f;
         }
-        if (getBoundRight().right > Constants.SCREEN_WIDTH) {
+        if (getBoundRight().right >= Constants.SCREEN_WIDTH) {
 //            setVX(-speed2);
-            squarePlayer.right = Constants.SCREEN_WIDTH;
             reverseVX();
             vY += 0.05f;
         }

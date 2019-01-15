@@ -25,12 +25,11 @@ public class GamePlayScene implements Scene {
 
     public void reset(){
         ground = new Ground(Constants.GROUND_HEIGHT);
-        int y = Constants.SCREEN_HEIGHT - ground.getHeight() - 500;
-
-        player = new Player(2 * Constants.SCREEN_WIDTH / 3, y, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, Color.rgb(255, 0, 0));
+        int y = Constants.SCREEN_HEIGHT / 2;
+        player = new Player(2 * Constants.SCREEN_WIDTH / 3, y, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT);
         player.setGround(ground);
         int gap = Constants.SCREEN_WIDTH / 5;
-        wallsManager = new WallsManager(player, gap, gap, Constants.WALL_HEIGHT, Constants.WALL_DISTANCE, Color.BLACK);
+        wallsManager = new WallsManager(player, gap, gap, Constants.WALL_HEIGHT, Constants.WALL_DISTANCE);
     }
 
 

@@ -22,9 +22,6 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -38,16 +35,24 @@ public class GameActivity extends Activity {
         Constants.PLAYER_SPEED = Math.round(Constants.SCREEN_HEIGHT / 25f);
         Constants.WALL_HEIGHT = Math.round(Constants.SCREEN_HEIGHT / 20f);
         Constants.SCORE_SIZE = Math.round(Constants.SCREEN_WIDTH / 10f);
-        Constants.WALL_DISTANCE = Math.round(Constants.PLAYER_HEIGHT * 2.75f);
+        Constants.WALL_DISTANCE = Math.round(Constants.PLAYER_HEIGHT * 3.5f);
         Constants.GROUND_HEIGHT = Math.round(Constants.SCREEN_HEIGHT / 20f);
+
+        Constants.SCORE_STAGE_0 = 25;//color: MAGENTA
+        Constants.SCORE_STAGE_1 = 75;//color: rgb(32, 137, 77);
+        Constants.SCORE_STAGE_2 = 150;//color: rgb(255, 137, 77);
+        Constants.SCORE_STAGE_3 = 300;//color: rgb(32, 137, 255);
+        Constants.WIDTH_RECT_MODE_2 = 25;
 
 
         final GamePanel gp = new GamePanel(this);
         setContentView(gp);
 //         Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
         MobileAds.initialize(this, getString(R.string.appId));
+//        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.adId));
+//        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         adListener = new AdListener() {
