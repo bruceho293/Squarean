@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-public class MinusCoin implements GameObject {
+public class ReverseCoin implements GameObject {
 
     private RectF coin;
     private Paint paint;
@@ -14,7 +14,7 @@ public class MinusCoin implements GameObject {
     private int signOfNumber;
     private long startTime = System.currentTimeMillis();
 
-    public MinusCoin(){
+    public ReverseCoin(){
         int x = (int)(Math.random() * (2 * Constants.SCREEN_WIDTH / 3 ) + Constants.SCREEN_WIDTH / 10);
         int y = 0;
         int width = Constants.SCREEN_WIDTH / 25;

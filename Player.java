@@ -17,7 +17,7 @@ public class Player implements GameObject {
     private SoundEffects sound;
     private Bitmap playerImage;
     private Ground ground;
-    private MinusCoin minusCoin;
+    private ReverseCoin reverseCoin;
 
     private int width, height;
 
@@ -47,7 +47,7 @@ public class Player implements GameObject {
         this.positionX = (squarePlayer.left + squarePlayer.right)/2;
         this.positionY = (squarePlayer.top + squarePlayer.bottom)/2;
         BitmapFactory bf = new BitmapFactory();
-        this.minusCoin = new MinusCoin();
+        this.reverseCoin = new ReverseCoin();
         playerImage = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.stand);
 
         touchGround = 0;
@@ -200,7 +200,7 @@ public class Player implements GameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(playerImage, null, squarePlayer, null);
-        minusCoin.draw(canvas);
+        reverseCoin.draw(canvas);
     }
 
     @Override
@@ -213,13 +213,14 @@ public class Player implements GameObject {
             dt = 0.5f;
         }
 
-        minusCoin.update();
-        minusCoin.setGetHit(squarePlayer);
-        if(minusCoin.getHit()) {
-            if(score >= 2)
-                score -= 2;
-            else if(score >= 1)
-                score -= 1;
+        reverseCoin.update();
+        reverseCoin.setGetHit(squarePlayer);
+        if(reverseCoin.getHit()) {
+//            if(score >= 2)
+//                score -= 2;
+//            else if(score >= 1)
+//                score -= 1;
+            reverseVX();
         }
 
         if (squarePlayer.bottom > ground.getGround().top - 50){
